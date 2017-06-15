@@ -1,0 +1,40 @@
+{
+  "name": "parse-server-job-runner",
+  "version": "0.0.1",
+  "description": "A node.js based job runner for parse-server",
+  "main": "bin/parse-server-job-runner",
+  "scripts": {
+    "lint": "eslint --cache ./",
+    "pretest": "npm run lint",
+    "test": "nyc jasmine",
+    "start": "./bin/parse-server-job-runner"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ampme/parse-server-job-runner.git"
+  },
+  "keywords": [
+    "parse-server",
+    "job",
+    "cloud-code"
+  ],
+  "author": "Florent Vilmart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ampme/parse-server-job-runner/issues"
+  },
+  "homepage": "https://github.com/ampme/parse-server-job-runner#readme",
+  "dependencies": {
+    "debug": "^2.6.8",
+    "parse": "^1.9.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "jasmine": "^2.6.0",
+    "jasmine-spec-reporter": "^4.1.0",
+    "mongodb-runner": "^3.5.0",
+    "nyc": "^11.0.2",
+    "parse-server": "parse-community/parse-server#latest",
+    "request-promise": "^4.2.1"
+  }
+}
