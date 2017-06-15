@@ -26,7 +26,9 @@
   "homepage": "https://github.com/ampme/parse-server-job-runner#readme",
   "dependencies": {
     "debug": "^2.6.8",
-    "parse": "^1.9.2"
+    "parse": "^1.9.2",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
