@@ -275,4 +275,41 @@ describe('JobSchedule', () => {
       .then(done)
       .catch(done.fail);
   });
+
+  it('properly sends the params to the job', (done) => {
+    let called = false;
+    let params;
+    const jobHandler = {
+      handler: function(req, res) {
+        called = true;
+        params = req.params;
+        res.success('OK!');
+      }
+    }
+    Parse.Cloud.job('job', jobHandler.handler);
+
+    const job = new JobSchedule();
+    job.set({
+      jobName: 'job',
+      description: 'a long job description',
+      params: JSON.stringify({hello: "world", key: 1}),
+      startAfter: '2017-01-02 00:00:01Z',
+      daysOfWeek: ["1", "1", "1", "1", "1", "1", "1"],
+      timeOfDay: "00:00:00.100Z",
+      lastRun: 0,
+      repeatMinutes: 10,
+    });
+    const now = new Date();
+    job
+      .run(now)
+      .then(() => {
+        expect(called).toBe(true);
+        expect(params).not.toBe(undefined);
+        expect(params.hello).toBe('world');
+        expect(params.key).toBe(1);
+        expect(job.lastRun).toBe(Math.round(now / 1000));
+      })
+      .then(done)
+      .catch(done.fail);
+  });
 });
