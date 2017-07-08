@@ -108,7 +108,7 @@ describe('JobSchedule', () => {
     expect(jobs.length).toBe(1);
   });
 
-  it('should not run a job that just ran ran', () => {
+  it('should not run a job that just ran', () => {
     const date = new Date("2017-01-01 00:00:01Z")
     const jobs = [
       {
@@ -158,6 +158,30 @@ describe('JobSchedule', () => {
       }
     ].filter(filters.all(date));
     expect(jobs.length).toBe(2);
+  });
+
+  it('should run the second job if first is rejected', () => {
+    const date = new Date("2017-01-01 00:00:01Z")
+    const jobs = [
+      {
+        jobName: 'job1',
+        timeOfDay: "00:00:00.000Z",
+        startAfter: "2016-01-01 00:00:00Z",
+        daysOfWeek: ["1","1","1","1","1","1","1"],
+        repeatMinutes: 10, // every 10 minutes
+        lastRun: Math.round(date.getTime() / 1000), // last run is in secs.
+      },
+      {
+        jobName: 'job2',
+        timeOfDay: "00:00:00.000Z",
+        startAfter: "2016-01-01 00:00:00Z",
+        daysOfWeek: ["1","1","1","1","1","1","1"],
+        repeatMinutes: 10, // every 10 minutes
+        lastRun: Math.round(date.getTime() / 1000) - 11 * 60, // last run is in secs.
+      }
+    ].filter(filters.all(date));
+    expect(jobs.length).toBe(1);
+    expect(jobs[0].jobName).toBe('job2');
   });
 
   it('should filter out a job based on day of week', () => {
